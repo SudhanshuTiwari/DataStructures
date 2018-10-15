@@ -220,12 +220,78 @@
 		return node.data;
 	  }
 	  
-	//get height of BST
-	  _getHeight(node) {
-		if(!node) {
-		  return -1;
-		}
-		const left = this._getHeight(node.left);
-		const right = this._getHeight(node.right);
-		return Math.max(left, right) + 1;
-	  }
+	  // get max height of tree by traversing the BST
+  _getHeight(node) {
+    if(!node) {
+      return -1;
+    }
+    const left = this._getHeight(node.left);
+    const right = this._getHeight(node.right);
+    return Math.max(left, right) + 1;
+  }
+
+  // get height of BST
+  getHeight(node) {
+    if(!node) {
+      node = this.root;
+    }
+    return this._getHeight(node);
+  }
+
+  // checking if BST is bananced
+  _isBalanced(node) {
+    if(!node) {
+      return true;
+    }
+    const heigthLeft = this._getHeight(node.left);
+    const heigthRight = this._getHeight(node.right);
+    const diff = Math.abs(heigthLeft - heigthRight);
+    if(diff > 1) {
+      return false;
+    } else {
+      return this._isBalanced(node.left) && this._isBalanced(node.right);
+    }
+  }
+
+  isBalanced(node) {
+    if(!node) {
+      node = this.root;
+    }
+    return this._isBalanced(node);
+  }
+
+  _checkHeight(node) {
+    if(!node) {
+      return 0;
+    }
+    const left = this._checkHeight(node.left);
+    if(left === -1) {
+      return -1;
+    }
+    const right = this._checkHeight(node.right);
+    if(right === -1) {
+      return -1;
+    }
+    const diff = Math.abs(left - right);
+    if(diff > 1) {
+      return -1;
+    } else {
+      return Math.max(left, right) + 1;
+    }
+  }
+
+  // check if node is balanced 
+  isBalancedOptimized(node) {
+    if(!node) {
+      node = this.root;
+    }
+    if(!node) {
+      return true;
+    }
+    if(this._checkHeight(node) === -1) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+}
